@@ -1,4 +1,4 @@
-package com.stefanini;
+package com.usersapp;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

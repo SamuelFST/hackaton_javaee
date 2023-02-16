@@ -1,4 +1,4 @@
-package com.stefanini;
+package com.usersapp;
 
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.runtime.configuration.ProfileManager;

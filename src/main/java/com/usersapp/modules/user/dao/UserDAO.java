@@ -31,6 +31,14 @@ public class UserDAO {
 		return query.getResultList();
 	}
 	
+	public List<String> findAllEmailProviders() {
+		List<String> providers = em.createQuery(
+				"select DISTINCT SUBSTRING(email, LOCATE('@', email)) from User", 
+				String.class
+		).getResultList();
+		return providers;
+	}
+	
 	@Transactional
 	public User save(User user) {
 		em.persist(user);

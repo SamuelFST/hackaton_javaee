@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import com.usersapp.config.exception.UserException;
 import com.usersapp.modules.user.dao.UserDAO;
 import com.usersapp.modules.user.dto.UserCreateDTO;
+import com.usersapp.modules.user.dto.UserEmailProviderDTO;
 import com.usersapp.modules.user.dto.UserResponseDTO;
 import com.usersapp.modules.user.model.User;
 
@@ -33,6 +34,10 @@ public class UserService {
 	public List<UserResponseDTO> findAllBirthdaysOfMonth(Integer month) {
 		List<User> birthdayUsers = userDAO.findAllBirthdaysOfMonth(month);
 		return birthdayUsers.stream().map(user -> UserResponseDTO.of(user)).collect(Collectors.toList());
+	}
+	
+	public List<UserEmailProviderDTO> findAllEmailProviders() {
+		return userDAO.findAllEmailProviders().stream().map(provider -> UserEmailProviderDTO.of(provider)).collect(Collectors.toList());
 	}
 	
 	public UserResponseDTO save(UserCreateDTO userDTO) {

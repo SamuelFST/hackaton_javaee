@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.usersapp.modules.user.dto.UserCreateDTO;
+import com.usersapp.modules.user.dto.UserEmailProviderDTO;
 import com.usersapp.modules.user.dto.UserResponseDTO;
 import com.usersapp.modules.user.service.UserService;
 
@@ -46,6 +47,12 @@ public class UserController {
 	@Path("/birthdays/{month}")
 	public List<UserResponseDTO> findAllBirthdaysOfMonth(@PathParam("month") Integer month) {
 		return userService.findAllBirthdaysOfMonth(month);
+	}
+	
+	@GET
+	@Path("/providers")
+	public List<UserEmailProviderDTO> findAllEmailProviders() {
+		return userService.findAllEmailProviders();
 	}
 	
 	@POST

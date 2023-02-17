@@ -27,24 +27,24 @@ import com.usersapp.modules.user.service.UserService;
 public class UserController {
 
 	private @Inject UserService userService;
-	
+
 	@GET
-    public List<UserResponseDTO> findAll(@DefaultValue("") @QueryParam("name") String name) {
-        return userService.findAll(name);
-    }
-	
+	public List<UserResponseDTO> findAll(@DefaultValue("") @QueryParam("name") String name) {
+		return userService.findAll(name);
+	}
+
 	@GET
 	@Path("/{id}")
 	public UserResponseDTO findById(@PathParam("id") Integer id) {
 		return userService.findByIdResponse(id);
 	}
-	
+
 	@GET
 	@Path("/birthdays")
 	public List<UserResponseDTO> findAllBirthdaysOfMonth() {
 		return userService.findAllBirthdaysOfMonth(LocalDate.now().getMonthValue());
 	}
-	
+
 	@GET
 	@Path("/birthdays/{month}")
 	public List<UserResponseDTO> findAllBirthdaysOfMonth(@PathParam("month") Integer month) {
@@ -61,13 +61,13 @@ public class UserController {
 	public UserResponseDTO save(@Valid UserCreateDTO userDTO) {
 		return userService.save(userDTO);
 	}
-	
+
 	@PUT
 	@Path("/{id}")
 	public UserResponseDTO update(@PathParam("id") Integer id, @Valid UserCreateDTO userDTO) {
 		return userService.update(userDTO, id);
 	}
-	
+
 	@DELETE
 	@Path("/{id}")
 	public UserResponseDTO delete(@PathParam("id") Integer id) {

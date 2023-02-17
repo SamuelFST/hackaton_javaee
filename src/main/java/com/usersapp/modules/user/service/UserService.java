@@ -23,9 +23,9 @@ public class UserService {
 
 	public List<UserResponseDTO> findAll(String name) {
 		List<User> users = new ArrayList<User>();
-		
+
 		if (name == "") {
-			users.addAll(userDAO.findAll());			
+			users.addAll(userDAO.findAll());
 		} else {
 			users.addAll(userDAO.findAllByNameInitials(name));
 		}
@@ -42,9 +42,10 @@ public class UserService {
 		List<User> birthdayUsers = userDAO.findAllBirthdaysOfMonth(month);
 		return birthdayUsers.stream().map(user -> UserResponseDTO.of(user)).collect(Collectors.toList());
 	}
-	
+
 	public List<UserEmailProviderDTO> findAllEmailProviders() {
-		return userDAO.findAllEmailProviders().stream().map(provider -> UserEmailProviderDTO.of(provider)).collect(Collectors.toList());
+		return userDAO.findAllEmailProviders().stream().map(provider -> UserEmailProviderDTO.of(provider))
+				.collect(Collectors.toList());
 	}
 
 	public UserResponseDTO save(UserCreateDTO userDTO) {
@@ -102,19 +103,20 @@ public class UserService {
 			throw new UserException("The birth date is required");
 		}
 	}
-	
+
 	private void validateInformedPassword(String password) {
 		if (password.length() < 4 || password.length() > 10) {
 			throw new UserException("The password must have between 4 and 10 characters");
 		}
-		
+
 		String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*., ?]).+$";
 		Pattern pattern = Pattern.compile(regex);
-		
+
 		Matcher matcher = pattern.matcher(password);
-		
+
 		if (!matcher.matches()) {
-			throw new UserException("The password must contain one uppercase, lowercase, numeric and special character");
+			throw new UserException(
+					"The password must contain one uppercase, lowercase, numeric and special character");
 		}
 	}
 

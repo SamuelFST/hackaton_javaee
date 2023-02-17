@@ -21,43 +21,43 @@ import com.usersapp.modules.user.dto.UserCreateDTO;
 @Entity
 @Table(name = "users")
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
-	
+
 	@Column(name = "name", nullable = false)
 	@NotEmpty(message = "name field is required")
 	@Size(max = 50, message = "the name field have a maximum limit of 50 characters")
 	private String name;
-	
+
 	@Column(name = "login", nullable = false, unique = true)
 	@Size(min = 5, max = 20, message = "The login field must have between 5 and 20 characters")
 	private String login;
-	
+
 	@Column(name = "email", nullable = false, unique = true)
 	@Email
 	@Size(min = 10, message = "The email field must have at least 10 characters")
 	private String email;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "date_birth")
 	private LocalDate dateBirth;
-	
+
 	@Column(name = "created_at", updatable = false)
 	private LocalDateTime createdAt;
-	
+
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
-	
+
 	@PrePersist
 	public void prePersist() {
 		createdAt = LocalDateTime.now();
 		password = Base64.getEncoder().encodeToString(password.getBytes());
 	}
-	
+
 	@PreUpdate
 	public void preUpdate() {
 		updatedAt = LocalDateTime.now();
@@ -85,10 +85,10 @@ public class User {
 		user.setLogin(userDTO.getLogin());
 		user.setEmail(userDTO.getEmail());
 		user.setPassword(userDTO.getPassword());
-		user.setDateBirth(userDTO.getDateBirth());		
+		user.setDateBirth(userDTO.getDateBirth());
 		return user;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}

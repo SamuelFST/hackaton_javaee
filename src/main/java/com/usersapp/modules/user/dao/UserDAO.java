@@ -13,35 +13,34 @@ import com.usersapp.modules.user.model.User;
 
 @ApplicationScoped
 public class UserDAO {
-	
+
 	@PersistenceContext
-    EntityManager em;
-	
+	EntityManager em;
+
 	public List<User> findAll() {
 		return em.createQuery("from User", User.class).getResultList();
 	}
-	
+
 	public List<User> findAllByNameInitials(String name) {
 		TypedQuery<User> query = em.createQuery("select u from User u where u.name like :name", User.class);
 		query.setParameter("name", name + "%");
 		return query.getResultList();
 	}
-	
+
 	public Optional<User> findById(Integer id) {
 		return Optional.of(em.find(User.class, id));
 	}
-	
+
 	public List<User> findAllBirthdaysOfMonth(Integer month) {
 		TypedQuery<User> query = em.createQuery("from User where MONTH(dateBirth) = :month", User.class);
 		query.setParameter("month", month);
 		return query.getResultList();
 	}
-	
+
 	public List<String> findAllEmailProviders() {
-		List<String> providers = em.createQuery(
-				"select DISTINCT SUBSTRING(email, LOCATE('@', email)) from User", 
-				String.class
-		).getResultList();
+		List<String> providers = em
+				.createQuery("select DISTINCT SUBSTRING(email, LOCATE('@', email)) from User", String.class)
+				.getResultList();
 		return providers;
 	}
 
@@ -50,15 +49,15 @@ public class UserDAO {
 		em.persist(user);
 		return user;
 	}
-	
+
 	@Transactional
 	public User update(User user) {
 		em.merge(user);
 		return user;
 	}
-	
+
 	@Transactional
 	public void delete(User user) {
-		em.remove(em.getReference(User.class, user.getId()));			
+		em.remove(em.getReference(User.class, user.getId()));
 	}
 }

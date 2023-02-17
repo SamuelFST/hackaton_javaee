@@ -1,5 +1,6 @@
 package com.usersapp.modules.user.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 import com.usersapp.config.exception.UserException;
 import com.usersapp.modules.user.dao.UserDAO;
 import com.usersapp.modules.user.dto.UserCreateDTO;
+import com.usersapp.modules.user.dto.UserEmailProviderDTO;
 import com.usersapp.modules.user.dto.UserResponseDTO;
 import com.usersapp.modules.user.model.User;
 
@@ -19,8 +21,14 @@ public class UserService {
 
 	private @Inject UserDAO userDAO;
 
-	public List<UserResponseDTO> findAll() {
-		List<User> users = userDAO.findAll();
+	public List<UserResponseDTO> findAll(String name) {
+		List<User> users = new ArrayList<User>();
+		
+		if (name == "") {
+			users.addAll(userDAO.findAll());			
+		} else {
+			users.addAll(userDAO.findAllByNameInitials(name));
+		}
 
 		return users.stream().map(user -> UserResponseDTO.of(user)).collect(Collectors.toList());
 	}
@@ -35,6 +43,10 @@ public class UserService {
 		return birthdayUsers.stream().map(user -> UserResponseDTO.of(user)).collect(Collectors.toList());
 	}
 	
+	public List<UserEmailProviderDTO> findAllEmailProviders() {
+		return userDAO.findAllEmailProviders().stream().map(provider -> UserEmailProviderDTO.of(provider)).collect(Collectors.toList());
+	}
+
 	public UserResponseDTO save(UserCreateDTO userDTO) {
 		try {
 			validateUserData(userDTO);

@@ -21,6 +21,12 @@ public class UserDAO {
 		return em.createQuery("from User", User.class).getResultList();
 	}
 	
+	public List<User> findAllByNameInitials(String name) {
+		TypedQuery<User> query = em.createQuery("select u from User u where u.name like :name", User.class);
+		query.setParameter("name", name + "%");
+		return query.getResultList();
+	}
+	
 	public Optional<User> findById(Integer id) {
 		return Optional.of(em.find(User.class, id));
 	}
@@ -31,6 +37,14 @@ public class UserDAO {
 		return query.getResultList();
 	}
 	
+	public List<String> findAllEmailProviders() {
+		List<String> providers = em.createQuery(
+				"select DISTINCT SUBSTRING(email, LOCATE('@', email)) from User", 
+				String.class
+		).getResultList();
+		return providers;
+	}
+
 	@Transactional
 	public User save(User user) {
 		em.persist(user);

@@ -46,7 +46,7 @@ public class UserService {
 	public List<UserEmailProviderDTO> findAllEmailProviders() {
 		return userDAO.findAllEmailProviders().stream().map(provider -> UserEmailProviderDTO.of(provider)).collect(Collectors.toList());
 	}
-	
+
 	public UserResponseDTO save(UserCreateDTO userDTO) {
 		try {
 			validateUserData(userDTO);

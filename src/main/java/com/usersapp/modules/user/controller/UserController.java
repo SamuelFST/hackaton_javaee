@@ -50,13 +50,13 @@ public class UserController {
 	public List<UserResponseDTO> findAllBirthdaysOfMonth(@PathParam("month") Integer month) {
 		return userService.findAllBirthdaysOfMonth(month);
 	}
-	
+
 	@GET
 	@Path("/providers")
 	public List<UserEmailProviderDTO> findAllEmailProviders() {
 		return userService.findAllEmailProviders();
 	}
-	
+
 	@POST
 	public UserResponseDTO save(@Valid UserCreateDTO userDTO) {
 		return userService.save(userDTO);

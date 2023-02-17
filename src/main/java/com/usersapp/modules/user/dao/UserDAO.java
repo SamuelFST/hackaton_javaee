@@ -44,7 +44,7 @@ public class UserDAO {
 		).getResultList();
 		return providers;
 	}
-	
+
 	@Transactional
 	public User save(User user) {
 		em.persist(user);

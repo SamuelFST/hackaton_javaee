@@ -21,6 +21,12 @@ public class UserDAO {
 		return em.createQuery("from User", User.class).getResultList();
 	}
 	
+	public List<User> findAllByNameInitials(String name) {
+		TypedQuery<User> query = em.createQuery("select u from User u where u.name like :name", User.class);
+		query.setParameter("name", name + "%");
+		return query.getResultList();
+	}
+	
 	public Optional<User> findById(Integer id) {
 		return Optional.of(em.find(User.class, id));
 	}

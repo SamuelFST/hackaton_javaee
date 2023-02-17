@@ -1,5 +1,6 @@
 package com.usersapp.modules.user.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,8 +21,14 @@ public class UserService {
 
 	private @Inject UserDAO userDAO;
 
-	public List<UserResponseDTO> findAll() {
-		List<User> users = userDAO.findAll();
+	public List<UserResponseDTO> findAll(String name) {
+		List<User> users = new ArrayList<User>();
+		
+		if (name == "") {
+			users.addAll(userDAO.findAll());			
+		} else {
+			users.addAll(userDAO.findAllByNameInitials(name));
+		}
 
 		return users.stream().map(user -> UserResponseDTO.of(user)).collect(Collectors.toList());
 	}

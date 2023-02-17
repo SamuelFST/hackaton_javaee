@@ -1,5 +1,6 @@
 package com.usersapp.modules.user.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,6 +34,18 @@ public class UserController {
 	@Path("/{id}")
 	public UserResponseDTO findById(@PathParam("id") Integer id) {
 		return userService.findByIdResponse(id);
+	}
+	
+	@GET
+	@Path("/birthdays")
+	public List<UserResponseDTO> findAllBirthdaysOfMonth() {
+		return userService.findAllBirthdaysOfMonth(LocalDate.now().getMonthValue());
+	}
+	
+	@GET
+	@Path("/birthdays/{month}")
+	public List<UserResponseDTO> findAllBirthdaysOfMonth(@PathParam("month") Integer month) {
+		return userService.findAllBirthdaysOfMonth(month);
 	}
 	
 	@POST

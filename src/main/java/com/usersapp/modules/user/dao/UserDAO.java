@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import com.usersapp.modules.user.model.User;
@@ -22,6 +23,12 @@ public class UserDAO {
 	
 	public Optional<User> findById(Integer id) {
 		return Optional.of(em.find(User.class, id));
+	}
+	
+	public List<User> findAllBirthdaysOfMonth(Integer month) {
+		TypedQuery<User> query = em.createQuery("from User where MONTH(dateBirth) = :month", User.class);
+		query.setParameter("month", month);
+		return query.getResultList();
 	}
 	
 	@Transactional

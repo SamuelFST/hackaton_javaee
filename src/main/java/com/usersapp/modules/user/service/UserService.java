@@ -30,6 +30,11 @@ public class UserService {
 		return UserResponseDTO.of(findById(id));
 	}
 
+	public List<UserResponseDTO> findAllBirthdaysOfMonth(Integer month) {
+		List<User> birthdayUsers = userDAO.findAllBirthdaysOfMonth(month);
+		return birthdayUsers.stream().map(user -> UserResponseDTO.of(user)).collect(Collectors.toList());
+	}
+	
 	public UserResponseDTO save(UserCreateDTO userDTO) {
 		try {
 			validateUserData(userDTO);

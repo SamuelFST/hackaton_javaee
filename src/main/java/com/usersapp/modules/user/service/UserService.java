@@ -65,9 +65,13 @@ public class UserService {
 		User userToBeUpdated = findById(id);
 
 		if (userToBeUpdated.getEmail() == userDTO.getEmail()) {
-			userToBeUpdated.setEmail(null);
+			userDTO.setEmail(null);
 		}
 
+		if (userToBeUpdated.getLogin() == userDTO.getLogin()) {
+			userDTO.setLogin(null);
+		}
+		
 		User user = User.of(userDTO);
 		user.setId(id);
 

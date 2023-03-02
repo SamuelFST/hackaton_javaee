@@ -1,6 +1,7 @@
 package com.usersapp.modules.user.service;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +12,8 @@ import javax.inject.Inject;
 
 import com.usersapp.config.exception.UserException;
 import com.usersapp.modules.user.dao.UserDAO;
+import com.usersapp.modules.user.dto.LoginRequestDTO;
+import com.usersapp.modules.user.dto.LoginResponseDTO;
 import com.usersapp.modules.user.dto.UserCreateDTO;
 import com.usersapp.modules.user.dto.UserEmailProviderDTO;
 import com.usersapp.modules.user.dto.UserResponseDTO;
@@ -58,6 +61,22 @@ public class UserService {
 			throw new UserException(ex.getMessage().toString());
 		}
 	}
+	
+	public LoginResponseDTO authenticate(LoginRequestDTO loginDTO) {
+		try {
+			validateLoginData(loginDTO);
+			User user = userDAO.findByLogin(loginDTO.getLogin()).orElseThrow(() -> new UserException("Login not found"));
+			String encondedInformedPassword = Base64.getEncoder().encodeToString(loginDTO.getPassword().getBytes());
+
+			if (!encondedInformedPassword.equals(user.getPassword())) {
+				throw new UserException("the password doesn't match");
+			}
+			
+			return LoginResponseDTO.of(user);
+		} catch (Exception ex) {
+			throw new UserException(ex.getMessage().toString());
+		}
+	}
 
 	public UserResponseDTO update(UserCreateDTO userDTO, Integer id) {
 		validateUserData(userDTO);
@@ -86,6 +105,12 @@ public class UserService {
 		return UserResponseDTO.of(user);
 	}
 
+	private void validateLoginData(LoginRequestDTO loginDTO) {
+		if (loginDTO.getLogin() == "" || loginDTO.getPassword() == "") {
+			throw new UserException("The login and password must be informed");
+		}
+	}
+	
 	private void validateUserData(UserCreateDTO user) {
 		if (user.getName() == "") {
 			throw new UserException("The user name field is required");

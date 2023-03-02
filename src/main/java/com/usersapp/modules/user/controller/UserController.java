@@ -16,6 +16,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import com.usersapp.modules.user.dto.LoginRequestDTO;
+import com.usersapp.modules.user.dto.LoginResponseDTO;
 import com.usersapp.modules.user.dto.UserCreateDTO;
 import com.usersapp.modules.user.dto.UserEmailProviderDTO;
 import com.usersapp.modules.user.dto.UserResponseDTO;
@@ -60,6 +62,12 @@ public class UserController {
 	@POST
 	public UserResponseDTO save(@Valid UserCreateDTO userDTO) {
 		return userService.save(userDTO);
+	}
+	
+	@POST
+	@Path("/auth")
+	public LoginResponseDTO authenticate(LoginRequestDTO loginDTO) {
+		return userService.authenticate(loginDTO);
 	}
 
 	@PUT

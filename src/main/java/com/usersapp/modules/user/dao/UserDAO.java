@@ -31,6 +31,12 @@ public class UserDAO {
 		return Optional.of(em.find(User.class, id));
 	}
 
+	public Optional<User> findByLogin(String login) {
+		TypedQuery<User> query = em.createQuery("select u from User u where u.login = :login", User.class);
+		query.setParameter("login", login);
+		return Optional.of(query.getSingleResult());
+	}
+	
 	public List<User> findAllBirthdaysOfMonth(Integer month) {
 		TypedQuery<User> query = em.createQuery("from User where MONTH(dateBirth) = :month", User.class);
 		query.setParameter("month", month);
